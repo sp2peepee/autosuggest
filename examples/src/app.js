@@ -7,7 +7,7 @@ import AutoSearch from './components/AutoSearch';
 
 ReactDOM.render(
 	<div>
-		<AutoSearch apiBase={ CONSTANTS.BASE_URL } label="Stocks Listing (API search based on TrakInvest Stocks Info)" />
+		<AutoSearch apiBase={ CONSTANTS.BASE_URL } label="Stocks (API based on TrakInvest stocks data)" />
 	</div>,
 	document.getElementById('example')
 );
