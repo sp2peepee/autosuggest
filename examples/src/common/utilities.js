@@ -5,8 +5,8 @@ export const formApiData = ( results ) => {
 
 	let formattedRes = [];
 	results.forEach( ( res, i ) => {
-		res.id    = `${res.country}_${res.capital}`;
-		res.value = `${res.capital}, ${res.country}`;
+		res.id    = `${res.exchange}_${res.companyName}`;
+		res.value = `${res.exchange}, ${res.companyName}`;
 		formattedRes.push( res );
 	} );
 

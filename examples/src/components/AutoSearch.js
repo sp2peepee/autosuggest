@@ -11,8 +11,6 @@ export default class AutoSuggest extends React.Component {
 		this.state = {
 			backspaceRemoves : true,
 			multi            : true,
-			limit            : props.limit,
-			offset           : props.offset,
 			toggleCache      : false
 		};
 
@@ -21,8 +19,6 @@ export default class AutoSuggest extends React.Component {
 		this.switchToSingle = this._switchToSingle.bind( this );
 		this.getUsers       = this._getUsers.bind( this );
 		this.gotoUser       = this._gotoUser.bind( this );
-		this.onLimitChange  = this._onLimitChange.bind( this );
-		this.onOffsetChange = this._onOffsetChange.bind( this );
 	};
 
 	_onChange ( value ) {
@@ -34,20 +30,6 @@ export default class AutoSuggest extends React.Component {
 
 		this._gotoUser( values );
 	};
-
-	_onLimitChange ( event ) {
-		this.setState( {
-			limit       : event.target.value,
-			toggleCache : !this.state.toggleCache
-		} );
-	}
-
-	_onOffsetChange ( event ) {
-		this.setState( {
-			offset : event.target.value,
-			toggleCache : !this.state.toggleCache
-		} );
-	}
 
 	_switchToMulti () {
 		this.setState( {
@@ -64,15 +46,9 @@ export default class AutoSuggest extends React.Component {
 		this._gotoUser( this.state.value[ 0 ] );
 	};
 
-	_getUsers ( input ) {
-		if ( !input ) {
-			return Promise.resolve( { options : [] } );
-		}
-
+	_getUsers () {
 		let state  = this.state;
-		let offset = state.offset ? `&${CONSTANTS.OFFSET}=${state.offset}` : '';
-		let limit  = state.limit ? `&${CONSTANTS.LIMIT}=${state.limit}` : '';
-		let apiUrl = `${this.props.apiBase}${input}${offset}${limit}`;
+		let apiUrl = `${this.props.apiBase}`;
 
 		return fetch( apiUrl )
 			.then( ( response ) => response.json() )
@@ -83,8 +59,8 @@ export default class AutoSuggest extends React.Component {
 
 	_gotoUser ( value ) {
 		this.setState( {
-			capital : value.capital,
-			country : value.country
+			exchange : value.exchange,
+			companyName : value.companyName
 		} );
 	};
 
@@ -92,9 +68,11 @@ export default class AutoSuggest extends React.Component {
 		return (
 			<div className="section">
 				<h3 className="section-heading">{ this.props.label }</h3>
-				<Select.Async multi={ this.state.multi } value={ this.state.value } onChange={ this.onChange }
+				<div style={{textTransform:'capitalize'}}>
+					<Select.Async multi={ this.state.multi } value={ this.state.value } onChange={ this.onChange }
 											onValueClick={ this.gotoUser } valueKey="id" labelKey="value" loadOptions={ this.getUsers }
 											backspaceRemoves={ true } toggleCache={ this.state.toggleCache }/>
+				</div>
 				<div className="checkbox-list">
 					<label className="checkbox">
 						<input type="radio" className="checkbox-control" checked={ this.state.multi }
@@ -107,13 +85,10 @@ export default class AutoSuggest extends React.Component {
 						<span className="checkbox-label">Single Value</span>
 					</label>
 				</div>
-				<div className="more-options">
-					<input type="number" className="Select-control" placeholder="Offset" onChange={ this.onOffsetChange }/>
-					<input type="number" className="Select-control" placeholder="Limit" onChange={ this.onLimitChange }/>
-				</div>
-				{ this.state.capital && <div className="results">
-					<p><b> Capital </b> { this.state.capital } </p>
-					<p><b> Country </b> { this.state.country } </p>
+				<br/>
+				{ this.state.exchange && <div className="results">
+					<p><b> Exchange </b> { this.state.exchange } </p>
+					<p><b> Company Name </b> { this.state.companyName } </p>
 				</div> }
 				<div className="hint">This example uses fetch.js for showing Async options with Promises</div>
 			</div>
