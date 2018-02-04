@@ -68,7 +68,7 @@ export default class AutoSuggest extends React.Component {
 		return (
 			<div className="section">
 				<h3 className="section-heading">{ this.props.label }</h3>
-				<div style={{textTransform:'capitalize'}}>
+				<div>
 					<Select.Async multi={ this.state.multi } value={ this.state.value } onChange={ this.onChange }
 											onValueClick={ this.gotoUser } valueKey="id" labelKey="value" loadOptions={ this.getUsers }
 											backspaceRemoves={ true } toggleCache={ this.state.toggleCache }/>
@@ -87,7 +87,7 @@ export default class AutoSuggest extends React.Component {
 				</div>
 				<br/>
 				{ this.state.exchange && <div className="results">
-					<p><b> Exchange </b> { this.state.exchange } </p>
+					<p className="uppercase"><b> Exchange </b> { this.state.exchange } </p>
 					<p><b> Company Name </b> { this.state.companyName } </p>
 				</div> }
 				<div className="hint">This example uses fetch.js for showing Async options with Promises</div>
